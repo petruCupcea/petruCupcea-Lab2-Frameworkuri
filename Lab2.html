@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <style>
+      body {
+          padding: 32px 0;
+      }
+
+      .custom-container {
+          max-width: 500px;
+          min-height: 100px;
+          margin: 12px auto;
+          background-color: cornsilk;
+          border-radius: 12px;
+          padding: 24px;
+          box-shadow: 0 5px 5px lightgray;
+      }
+
+      .student-object {
+          padding: 8px;
+          border-radius: 4px;
+          display: flex;
+          justify-content: space-between;
+          margin: 4px 0;
+          background-color: blanchedalmond;
+      }
+
+      .student-object span {
+          display: flex;
+          gap: 8px;
+      }
+
+  </style>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<div ng-app="myApp"
+     ng-controller="myCtrl"
+     ng-init="students = [
+      {
+        name: 'Petru',
+        surname: 'Cupcea',
+        mark: 9,
+      },
+      {
+        name: 'Cristina',
+        surname: 'Akin',
+        mark: 10,
+      },
+      {
+        name: 'Victor',
+        surname: 'Batir',
+        mark: 8,
+      },
+      {
+        name: 'Bostan',
+        surname: 'Cristian',
+        mark: 6,
+      },
+      {
+        name: 'Bostan',
+        surname: 'Marius',
+        mark: 7,
+      },
+      {
+        name: 'Botnari',
+        surname: 'Ion',
+        mark: 5,
+      },
+    ]">
+
+  <div class="custom-container">
+    <h4>Sarcina 1</h4>
+    <p>1. De creat lista studentilor (nume, prenume, nota). De organizat cautarea studentului X. X de dat prin input</p>
+    <p>
+      Search: <input type="text" ng-model="search">
+    </p>
+    <div class="student-object" ng-repeat="(key, value) in students | filter : search">
+      <span>
+      <h5>{{value.name}}</h5>
+      <h5>{{value.surname}}</h5>
+      </span>
+      <h5>{{value.mark}}</h5>
+    </div>
+  </div>
+
+  <div class="custom-container">
+    <h4>Sarcina 2</h4>
+    <p>2. Serviciu care ridica la patrat valoarea X data din input</p>
+    <p>
+      x = <input type="number" ng-model="x">
+    </p>
+    <button ng-click="getSquare(x)">Get Square</button>
+    <h4 ng-if="result">Service square = {{result}}</h4>
+  </div>
+
+  <div class="custom-container">
+    <h4>Sarcina 3</h4>
+    <p>3. De creat un obiect select din lista studentilor. De afisat alegerea utilizatorului</p>
+    <p>
+      Select a student:
+      <select ng-model="selectedStudent">
+        <option ng-repeat="(index, value) in students" ng-value="value">{{value.name}} {{value.surname}}</option>
+      </select>
+    <div class="student-object">
+      <span>
+      <h5>{{selectedStudent.name}}</h5>
+      <h5>{{selectedStudent.surname}}</h5>
+      </span>
+      <h5>{{selectedStudent.mark}}</h5>
+    </div>
+    </p>
+  </div>
+
+  <div class="custom-container" ng-init="productResult= 0">
+    <h4>Sarcina 4</h4>
+    <p>4. De dat a si b din input. Dupa click afisati produsul lor</p>
+    <p>
+      a = <input type="number" ng-model="a">
+    </p>
+    <p>
+      b = <input type="number" ng-model="b">
+    </p>
+    <button ng-click="getProduct(a,b)">Get Product</button>
+    <p>Result = {{productResult}}</p>
+  </div>
+
+  <div class="custom-container">
+    <h4>Sarcina 5</h4>
+    <p>5. De dat a si b din input. Determinati daca a se imparte la b fara rest</p>
+    <p>
+      a = <input type="number" ng-model="c">
+    </p>
+    <p>
+      b = <input type="number" ng-model="d">
+    </p>
+    <p ng-if="c % d === 0">Result = {{c / d}}</p>
+    <p ng-if="(c % d !== 0) && c && d">Impartirea este cu rest</p>
+  </div>
+
+  <div class="custom-container">
+    <h4>Sarcina 6</h4>
+    <p>6. De afisat lista studentilor In forma de tabel</p>
+    <table border="1">
+      <tr>
+        <td>Nume</td>
+        <td>Prenume</td>
+        <td>Nota</td>
+      </tr>
+      <tr ng-repeat="(index, value) in students">
+        <td>{{value.name}}</td>
+        <td>{{value.surname}}</td>
+        <td>{{value.mark}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="custom-container">
+    <h4>Sarcina 7</h4>
+    <p>7. Aranjati descrescator lista studentilor dupa nota</p>
+    <div class="student-object" ng-repeat="(key, value) in students | orderBy : '-mark'">
+      <span>
+      <h5>{{value.name}}</h5>
+      <h5>{{value.surname}}</h5>
+      </span>
+      <h5>{{value.mark}}</h5>
+    </div>
+  </div>
+
+</div>
+</body>
+<script>
+    var app = angular.module('myApp', []);
+
+
+    app.service('square', function () {
+        this.squareFunction = function (x) {
+            return x * x;
+        }
+    });
+
+
+    app.controller('myCtrl', function ($scope, square) {
+        $scope.getSquare = function (x) {
+            $scope.result = square.squareFunction(x);
+        }
+
+        $scope.getProduct = function (a, b) {
+            $scope.productResult = a * b;
+        }
+    });
+
+</script>
+</html>
